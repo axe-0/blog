@@ -1,0 +1,55 @@
+{% extends "header.html" %}
+{% load static %} 
+{% block content %}
+
+<div class="grid-con">
+    <div class="bleft-con">
+        <div class="upper-con">
+            <h1 class="head-home blg-text">/ THE C </h1>
+            <img src="{% static 'images/Y2kwhite.png' %}" alt="spiral" class="img-spiral">
+            <h1 class="head-home blg-text half-two">ST OF <br> BEING WORNG</h1>
+        </div>
+        
+
+        <h1 class="head-home blg-text mid-text">IS LESS THAN</h1>
+        <h1 class="head-home blg-text btm-text">THE C0ST OF <br> DOING NOTHING/</h1>
+
+        <div class="ref-persn">
+            <p class="qute-by">-SETH GODIN</p>
+        </div>
+    </div>
+
+    <div class="bright-con">
+        <h2 class="sub-ttle">/ LATEST IN BLOG </h2>
+        {% for post in object_list %}
+
+        <div class="lis-con">
+            <div class="line-top-one">
+                <div class="cat-con">
+                    <p class="cat-name">{{post.category}}</p>
+                </div>
+                <div class="date-con">
+                    <p> {{ post.date|date:"Y-m-d" }}</p>
+                </div>  
+            </div>
+            
+            <div class="down-half">
+                <p > <a href="/blog/{{post.id}}" class="post-title">
+                    {{ post.title }}.</a>
+                </p>
+                <div class="line-blg"></div>
+            </div>
+           
+           
+        </div>
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+
+
+

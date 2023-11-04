@@ -1,0 +1,15 @@
+{%extends "header.html"%}
+{% block title %}Sign Up{% endblock %}
+{%block content%}
+<h1> /SIGN UP </h1>
+<form method="post">
+    {% csrf_token %}
+    <div class="form-con" >
+        {{form.as_p}}
+        <input type="submit" value="Sign Up" />
+    </div>
+    
+    
+</form>
+
+{% endblock %}

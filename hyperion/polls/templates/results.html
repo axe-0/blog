@@ -1,0 +1,88 @@
+{% extends "headerdark.html" %}
+{%load static%}
+
+{%block content%}
+<div class="main-deats-area">
+    <div class="main-deats-grid">
+        <div class="lef-colu">
+            <div class="img-con">
+                <img src="{%static 'images/detialres/watch.png'%}" alt="nothing-ear" class="img-pow">
+            </div>
+        </div>
+        <div class="right-colu">
+            <div class="box-quest-con">
+                <div class="box-top">
+                    <div class="quest-con">
+                        <h1 class="deats-head">/{{ question.question_text}}</h1>
+                    </div>
+                    <div class="choice-grid-con">
+                        <div class="choice-left">
+                            <div class="choices-con">
+                                <form action="{%url 'polls:vote' question.id %}" method="post" >
+                                    {% csrf_token %}
+                                    <ul>
+                                        {%for choice in question.choice_set.all%}
+                            
+                                        <li class="result-text">
+                                            {{choice.choice_text}}-- {{choice.votes}}
+                                            votes{{choice.votes|pluralize}}
+                                        </li>
+                                        
+                                    
+                                    {%endfor%}
+                                    <br />
+                                    </ul>
+
+                                    <div class="result-button-con">
+                                        <a href="{% url 'polls:detail' question.id %}" class="agn-link">
+                                            Vote again?
+                                        </a>
+                                    </div>
+                                    
+                                </form>
+                            </div>
+                           
+                            <div class="taglibe-con-next">
+                                <p class="tag-line"> ALWAYS STAY FROSTY!</p>
+                            </div>
+                        </div>
+                        <div class="choice-right">
+                            <div class="line-con">
+                                <div class="choice-line"></div>
+                            </div>
+                            <div class="x-img-con">
+                                <img src="{% static 'images/detialres/ximg.png' %}" alt="ximage" class="ximg">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <box class="box-bottom-two">
+                    <div class="bar-con">
+                        <img src="{% static 'images/detialres/bar-code.png' %}" alt="bar-code" class="img-barcode">
+                    </div>
+                    <div class="qr-con">
+                        <img src="{% static 'images/detialres/Vector.png' %}" alt="qr-code" class="img-qr-rus">
+                    </div>
+                </box>
+            </div>
+            <div class="pow-con">
+                <h2 class="pow-title"> <-PRODUCT OF THE MONTH </h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+

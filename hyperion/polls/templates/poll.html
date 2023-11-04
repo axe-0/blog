@@ -1,0 +1,142 @@
+{% extends "header.html" %}
+{%load static%}
+
+{%block content%}
+<div class="hub-con">
+    <div class="hub-grid">
+        <div class="left-hub-con">
+            <div class="top-area-con">
+                <div class="hub-title-con">
+                    <h1 class="head-title">/COMMUNITY HUB</h1>
+                </div>
+                <div class="hub-par-con">
+                    <p>CATCH UP ON THE LATEST HAPPENINGS IN THE COMMUNITY
+                     . PARTICIPATE IN OUR POLLS, CHECK OUT UPCOMING EVENTS
+                     JOIN OUR DAILY CHALLENGES AND SEE COMMUNITY SUBMISSION. 
+                    </p>
+                </div>
+                <div class="one-lne"></div>
+                <div class="first-bot-con">
+                    <h3 class="sec-title first-col">UPCOMING EVENTS</h3>
+                    <div class="ovar-grid">
+                        <div class="ytk-x">
+                            <img src="{% static 'images/Y2k shape_79 1.png' %}" alt="X-image" class="img-x">
+                        </div>
+                        
+                        <div class="qr-bg-con">
+                            <div class="qr-bg">
+                                <img src="{%static 'images/QR.png'%}" alt="QR-code" class="img-qr">
+                            </div>
+                         </div>
+                    </div>
+                    
+                    
+
+                </div>
+            </div>
+            
+
+        </div>
+        <div class="middle-hub-con">
+           <div class="midl-top-area-con">
+             <div class="mid-title-con">
+                    <h3 class="sec-title midt-col">MEME OF THE WEEK</h3>
+                </div>
+             <div class="meme-con">
+                    <img src="{%static 'images/meme.gif'%}" alt="sv-meme" class="img-meme">
+             </div>
+           </div>
+           <div class="one-lne mid-lid"></div>
+           <div class="midle-bottom-area-con">
+            <h3 class="sec-title midl-col">WEEKLY POLLS </h3>
+            {% if latest_question_list%}
+            <ul>
+                {%for question in latest_question_list%}
+                <li>
+                    <div class="main-poll-con">
+                        <div class="tp-area-con">
+                            <div class="poll-con">
+                                <p class="pol-text">POLL</p>
+                            </div>
+                            <div class="poll-line"></div>
+                        </div>
+                       
+                        <a href="{%url 'polls:detail' question.id %}" class="link-pol-text">
+                            {{question.question_text}}
+                        </a>
+                        <div class="pub-date-con">
+                            <p class="pdate-text">{{question.pub_date|date:"Y-m-d"}}</p>
+                        </div>
+                    </div>
+                   
+                </li>
+                {% endfor %}
+                </ul>
+            {% else %} 
+            <p>--No polls available--</p>
+            {% endif %} 
+           </div>
+           
+        </div>
+        <div class="right-hub-con">
+            <div class="third-head-con">
+                <h3 class="sec-title last-col">DAILY CHALLENGES</h3>
+                <form >
+                    <div class="check-list-con">
+                        <label >
+                            <input type="checkbox" name="option1" value="option1">
+                            READ UP ON ZKSYNC
+                        </label>
+                        <label >
+                            <input type="checkbox" name="option1" value="option1">
+                            DRNK 2L WATER
+                        </label>
+                        <label >
+                            <input type="checkbox" name="option1" value="option1">
+                            MIN 20 MIN WALK
+                        </label>
+                        <label >
+                            <input type="checkbox" name="option1" value="option1">
+                            CHECK ON THAT FRIEND
+                        </label>
+                    </div>
+                 
+                </form>
+            </div>
+            <div class="one-lne last-lin"></div>
+            <div class="time-day-con">
+                <div class="clock">
+                    <div class="time">
+                        <div class="left-side-con">
+                            <div class="hour ">{{ current_hour }}</div>
+                            <div class="time-line"></div>
+                            <div class="am-pm">{{ am_pm }}</div>
+                        </div>
+                        <div class="right-side-con">
+                            <div class="minute ">{{ current_minute }}</div>
+                            <div class="time-line"></div>
+                            <div class="day-of-week">{{ day_of_week }}</div>
+                        </div>
+                        
+                       
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="quote-con">
+                <h3 class="sec-title lastt-col">QUOTE OF THE DAY</h3>
+
+                <div class="par-quote-con">
+                    <p>“WE ARE HERE TO LAUGH AT THE ODDS AND LIVE OUR LIVES SO WELL THAT DEATH WILL TREMBLE TO TAKE US."</p>
+                    <p>-CHARLES BUKOWSKI</p>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock%}
