@@ -1,17 +1,20 @@
- FROM python:3.11
- # Set environment variables for your Django project (customize as needed)
-        ENV DJANGO_SETTINGS_MODULE=hyperion.settings
-        ENV DEBUG=True
+FROM python:3.11
 
- WORKDIR /app
+# Set environment variables for your Django project (customize as needed)
+ENV DJANGO_SETTINGS_MODULE=your_project_name.settings
+ENV DEBUG=True
 
- COPY . requirements.txt /app/
+WORKDIR /app
+
+COPY requirements.txt /app/
 
  # Install any needed packages specified in requirements.txt
- RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install -r requirements.txt
 
  # Copy the current directory contents into the container at /app
-        COPY . /app/
+COPY . /app/
+
+EXPOSE 8000
 
  # Run app.py when the container launches
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
