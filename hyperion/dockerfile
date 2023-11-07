@@ -1,15 +1,16 @@
 FROM python:3.11
 
 # Set environment variables for your Django project (customize as needed)
+ENV PYTHONUNBUFFERED 1
 ENV DJANGO_SETTINGS_MODULE=your_project_name.settings
-ENV DEBUG=True
+
 
 WORKDIR /app
 
 COPY requirements.txt /app/
 
  # Install any needed packages specified in requirements.txt
-RUN pip install -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
  # Copy the current directory contents into the container at /app
 COPY . /app/
