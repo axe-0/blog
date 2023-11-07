@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>polls.views &mdash; Blog Poll App 23.11.03 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=62db9c2e"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Blog Poll App
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../blog.html">blog package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../polls.html">polls package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Blog Poll App</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">polls.views</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for polls.views</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">django.shortcuts</span> <span class="kn">import</span> <span class="n">render</span><span class="p">,</span> <span class="n">get_object_or_404</span>
+<span class="kn">from</span> <span class="nn">django.http</span> <span class="kn">import</span> <span class="n">HttpResponse</span><span class="p">,</span> <span class="n">HttpResponseRedirect</span>
+<span class="kn">from</span> <span class="nn">django.urls</span> <span class="kn">import</span> <span class="n">reverse</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span> <span class="p">,</span><span class="n">timedelta</span>
+<span class="kn">from</span> <span class="nn">.models</span> <span class="kn">import</span> <span class="n">Question</span> <span class="p">,</span><span class="n">Choice</span>
+<span class="kn">from</span> <span class="nn">django.contrib.auth.decorators</span> <span class="kn">import</span> <span class="n">login_required</span>
+
+<span class="c1"># Create your views here.</span>
+<div class="viewcode-block" id="index">
+<a class="viewcode-back" href="../../polls.html#polls.views.index">[docs]</a>
+<span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Render the description of the polls on a page.</span>
+
+<span class="sd">    This function retrieves the five most recently published questions and passes</span>
+<span class="sd">    them to the &#39;poll.html&#39; template along with additional context data</span>
+<span class="sd">    including the current time, hour, minute, AM/PM, and day of the week.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        request (HttpRequest): The HTTP request object.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        HttpResponse: The rendered HTML page.</span>
+
+<span class="sd">    Template:</span>
+<span class="sd">        &#39;poll.html&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">latest_question_list</span> <span class="o">=</span> <span class="n">Question</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;-pub_date&#39;</span><span class="p">)[:</span><span class="mi">5</span><span class="p">]</span>
+    <span class="n">now</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+    <span class="n">new_time</span> <span class="o">=</span> <span class="n">now</span> <span class="o">+</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">hours</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">current_hour</span> <span class="o">=</span> <span class="n">new_time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%I&quot;</span><span class="p">)</span>
+    <span class="n">current_minute</span> <span class="o">=</span> <span class="n">now</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%M&quot;</span><span class="p">)</span>
+    <span class="n">am_pm</span> <span class="o">=</span> <span class="n">now</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%p&quot;</span><span class="p">)</span>
+    <span class="n">day_of_week</span> <span class="o">=</span> <span class="n">now</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%A&quot;</span><span class="p">)</span>
+    
+    <span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;latest_question_list&#39;</span> <span class="p">:</span> <span class="n">latest_question_list</span><span class="p">,</span>
+        <span class="s1">&#39;current_hour&#39;</span><span class="p">:</span> <span class="n">current_hour</span><span class="p">,</span>
+        <span class="s1">&#39;current_minute&#39;</span><span class="p">:</span> <span class="n">current_minute</span><span class="p">,</span>
+        <span class="s1">&#39;am_pm&#39;</span><span class="p">:</span> <span class="n">am_pm</span><span class="p">,</span>
+        <span class="s1">&#39;day_of_week&#39;</span><span class="p">:</span> <span class="n">day_of_week</span><span class="p">,</span>
+        <span class="p">}</span>
+    <span class="k">return</span> <span class="n">render</span> <span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;poll.html&#39;</span><span class="p">,</span><span class="n">context</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="detail">
+<a class="viewcode-back" href="../../polls.html#polls.views.detail">[docs]</a>
+<span class="nd">@login_required</span>
+<span class="k">def</span> <span class="nf">detail</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">question_id</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Render the poll details to make a chhoice selection and submit the poll.</span>
+
+<span class="sd">    This view retrieves a specific question by its ID and renders the &#39;detail.html&#39;</span>
+<span class="sd">    template with the question data.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        request (HttpRequest): The HTTP request object.</span>
+<span class="sd">        question_id (int): The ID of the question to display.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        HttpResponse: The rendered HTML page.</span>
+
+<span class="sd">    Template:</span>
+<span class="sd">        &#39;detail.html&#39;</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">question</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Question</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">question_id</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">render</span> <span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;detail.html&#39;</span><span class="p">,{</span><span class="s1">&#39;question&#39;</span><span class="p">:</span><span class="n">question</span><span class="p">})</span></div>
+
+    
+<div class="viewcode-block" id="results">
+<a class="viewcode-back" href="../../polls.html#polls.views.results">[docs]</a>
+<span class="nd">@login_required</span>
+<span class="k">def</span> <span class="nf">results</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">question_id</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Render the results of the poll after a user votes.</span>
+
+<span class="sd">    This view retrieves a specific question by its ID and renders the &#39;results.html&#39;</span>
+<span class="sd">    template with the question data.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        request (HttpRequest): The HTTP request object.</span>
+<span class="sd">        question_id (int): The ID of the question for which to display results.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        HttpResponse: The rendered HTML page.</span>
+
+<span class="sd">    Template:</span>
+<span class="sd">        &#39;results.html&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">question</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Question</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">question_id</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">render</span> <span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;results.html&#39;</span><span class="p">,{</span><span class="s1">&#39;question&#39;</span><span class="p">:</span><span class="n">question</span><span class="p">})</span></div>
+
+
+
+<div class="viewcode-block" id="votes">
+<a class="viewcode-back" href="../../polls.html#polls.views.votes">[docs]</a>
+<span class="k">def</span> <span class="nf">votes</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">question_id</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function processes the voting for a specific question.</span>
+
+<span class="sd">    This view processes a vote for a specific question by retrieving the selected</span>
+<span class="sd">    choice from the request and incrementing its vote count. If a choice is not</span>
+<span class="sd">    selected or doesn&#39;t exist, it displays an error message. After processing the</span>
+<span class="sd">    vote, the user is redirected to the results page for the question.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        request (HttpRequest): The HTTP request object.</span>
+<span class="sd">        question_id (int): The ID of the question for which to process a vote.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        HttpResponseRedirect: A redirection to the &#39;results&#39; view for the question.</span>
+
+<span class="sd">    Template:</span>
+<span class="sd">        None (Redirects to the &#39;results&#39; view)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">question</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Question</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">question_id</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+       <span class="n">selected_choice</span> <span class="o">=</span> <span class="n">question</span><span class="o">.</span><span class="n">choice_set</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">pk</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">[</span><span class="s1">&#39;choice&#39;</span><span class="p">])</span>
+    
+    <span class="k">except</span> <span class="p">(</span><span class="ne">KeyError</span><span class="p">,</span> <span class="n">Choice</span><span class="o">.</span><span class="n">DoesNotExist</span><span class="p">):</span>
+        <span class="c1"># Redisplay the question voting form</span>
+        <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;polls/detail.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;question&#39;</span><span class="p">:</span> <span class="n">question</span><span class="p">,</span>
+        <span class="s1">&#39;error_message&#39;</span><span class="p">:</span> <span class="s2">&quot;You didn&#39;t select a choice.&quot;</span>
+        <span class="p">})</span>
+   
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">selected_choice</span><span class="o">.</span><span class="n">votes</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">selected_choice</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">HttpResponseRedirect</span><span class="p">(</span>
+            <span class="n">reverse</span><span class="p">(</span><span class="s1">&#39;polls:results&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">question_id</span><span class="p">,))</span>
+
+            <span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Xolo.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
