@@ -1,6 +1,18 @@
 # Django Blog application
 
-This is a django blog and ploss application.
+## About The Project
+
+![home page](home.png)
+
+
+This is a a django blog, create blog posts. Engage with your community/audience with polls. Users must sign up and login in order to participate in polls. 
+
+### Built With
+
+[![Django Version][django-badge]][django-url]
+[![Bootstrap][Bootstrap.com]][Bootstrap-url]
+
+
 
 ## Running the Application
 
@@ -42,27 +54,45 @@ This is a django blog and ploss application.
 
 ### Using Docker 
 
-2.1 Clone the repository:
+2.1 Pull image from docker hub:
 
-    git clone https://github.com/axe-0/blog.git
+    docker pull axe0/jomo-blog:latest
 
-2.2 Build the Docker image:
-
-    docker build -t django-blog-app .
-
-  Substitute 'django-blog-app' with your preferred name.
     
-2.3 Run the Docker container:
+2.2 Run the Docker container:
 
-    docker build -t django-blog-app .
+    docker run -it -p 8000:8000 axe0/jomo-blog:latest
 
-  use the name set above for the app 
 
-2.4 Access the application in your web browser at http://localhost:8000/
+
+2.3 Access the application in your web browser at http://localhost:8000/
 
 ### Security Keys 
 
-  security configurations for this application can be found in the 'security_config.txt' file in the dropbox
+  security configurations for this application can be found in the 'security_config.txt' file in the dropbox. 
+
+  Enter these in the settings.py file where you see the following :
+
+    #ADD Key from 'security_config.txt' here:
+    SECRET_KEY = ""
+
+
+## Usage
+
+Use the admin panel to create blog posts.
+
+1. Create a super user by running the following in the root     directory :
+
+    python manage.py createsuperuser
+
+2. Login with your super user credentials to the admin panel by going to the folowing path http://localhost:8000/admin
+
+3. You can create posts and pollss by selecting add next to posts and polls 
+
+
+Users can sign up and login in, read the blog post and interact with posts and other community content.
+
+
 
 ### License
 
@@ -70,3 +100,13 @@ This is a django blog and ploss application.
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 For the full text of the MIT License, please visit [opensource.org/licenses/MIT](https://opensource.org/licenses/MIT).
+
+
+<!-- MARKDOWN LINKS & IMAGES -->
+[django-badge]: https://img.shields.io/badge/Django-3.2-green.svg
+[django-url]: https://www.djangoproject.com/
+
+
+[Bootstrap.com]: https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white
+[Bootstrap-url]: https://getbootstrap.com
+
