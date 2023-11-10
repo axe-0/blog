@@ -83,6 +83,11 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": BASE_DIR / "db.sqlite3",
+        "MYSQL_DATABASE":'mydatabase',
+        "MYSQL_USER":'root',
+        "MYSQL_PASSWORD":'some_password',
+        "MYSQL_ROOT_PASSWORD":'some_password',
+        "MYSQL_HOST":''
     }
 }
 
