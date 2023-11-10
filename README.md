@@ -24,20 +24,20 @@ This is a a django blog, create blog posts. Engage with your community/audience 
 
 1.1 Create a virtual environment (if not already created):
 
-      A) use pipn ormally when installing packages
+Use pip normally when installing packages
 
             > python -m pip install pip
 
-      B) nstall package to enable virtual envirment 
+Install package to enable virtual envirment 
 
                 > pip install virtualenv
 
 1.2 Activate the virtual environment:
-  On macOS and Linux:
+On macOS and Linux:
     
       source venv/bin/activate
 
-  On Windows:
+On Windows:
 
     .\venv\Scripts\activate
 
@@ -69,11 +69,11 @@ This is a a django blog, create blog posts. Engage with your community/audience 
 
 ### Security Keys 
 
-  security configurations for this application can be found in the 'security_config.txt' file in the dropbox. 
+Security configurations for this application can be found in the 'security_config.txt' file in the dropbox. 
 
-  Enter these in the settings.py file where you see the following :
+Enter these in the 'settings.py' file where you see the following :
 
-    #ADD Key from 'security_config.txt' here:
+ADD Key from 'security_config.txt' here:
     SECRET_KEY = ""
 
 
@@ -103,7 +103,7 @@ For the full text of the MIT License, please visit [opensource.org/licenses/MIT]
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
-[django-badge]: https://img.shields.io/badge/Django-3.2-green.svg
+[django-badge]: https://img.shields.io/badge/Django-4.2-green.svg
 [django-url]: https://www.djangoproject.com/
 
 
