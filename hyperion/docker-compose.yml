@@ -3,14 +3,13 @@ services:
   db:
     image: 
     ports:
-      -"3306:3306"
+      - "3306:3306"
     environment:
-      - MYSQL_DATABASE='mydatabase'
-      - MYSQL_USER='root'
-      - MYSQL_PASSWORD='some_password'
-      - MYSQL_ROOT_PASSWORD='some_password'
-      - MYSQL_HOST=''
-
+      - MYSQL_DATABASE= mydatabase
+      - MYSQL_USER= root
+      - MYSQL_PASSWORD= some_password
+      - MYSQL_ROOT_PASSWORD= some_password
+      
     volumes:
       - /tmp/app/mysqld:/var/run/mysqld
       - ./db:/var/lib/mysql
@@ -22,6 +21,7 @@ services:
     volumes:
       - .:/app
       - /tmp/app/mysqld:/run/mysqld
+      - ./static:/app/static
     depends_on:
       - db
     
