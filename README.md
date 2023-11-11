@@ -83,14 +83,24 @@ Use the admin panel to create blog posts.
 
 1. Create a super user by running the following in the root     directory :
 
+venv:
     python manage.py createsuperuser
+
+docker:
+    docker-compose run web python manage.py createsuperuser
 
 2. Login with your super user credentials to the admin panel by going to the folowing path http://localhost:8000/admin
 
+![home page](login.png)
+
 3. You can create posts and pollss by selecting add next to posts and polls 
 
+![home page](createpost.png)
 
 Users can sign up and login in, read the blog post and interact with posts and other community content.
+
+![home page](blog.png)
+![home page](commhub.png)
 
 
 
